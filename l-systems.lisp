@@ -48,3 +48,38 @@
     (dotimes (level level)
       (setf state (concat-strings (l-system-step l-system state))))
     state))
+
+(defun find-symbols (axiom productions)
+  (let ((letters (make-hash-table)))
+    (iter (for letter in-string axiom)
+	  (setf (gethash letter letters) t))
+    (iter (for (pred succ) in productions)
+	  (iter (for letter in-string (concatenate 'string pred succ))
+		(setf (gethash letter letters) t)))
+    (iter (for (key value) in-hashtable letters)
+	  (collect key))))
+(defun make-productions (productions)
+  (iter (for (pred succ) in productions)
+	(collect (make-instance 'production :predecessor (elt pred 0) :successor succ))))
+(defun make-l-system (axiom productions)
+  "axiom is a single character string, productions is a list of 2 element lists, first element is a source string, 2nd element a target string"
+  (make-instance 'l-system
+		 :axiom axiom
+		 :alphabet (find-symbols axiom productions)
+		 :productions (make-productions productions)))
+(defun split-system ()
+  (make-l-system "0" '(("0" "1[0]0")
+		       ("1" "11"))))
+
+(defun algae-system ()
+  (make-l-system "a" '(("a" "ab")
+		       ("b" "a"))))
+
+(defun cantor-dust-system ()
+  (make-l-system "a" '(("a" "aba")
+		       ("b" "bbb"))))
+(defun koch-curve-system ()
+  (make-l-system "f" '(("f" "f+f-f-f+f"))))
+(defun sierpinski-triangle-system ()
+  (make-l-system "a" '(("a" "b-a-b")
+		       ("b" "a+b+a"))))
