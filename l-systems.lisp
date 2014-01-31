@@ -48,3 +48,17 @@
     (dotimes (level level)
       (setf state (concat-strings (l-system-step l-system state))))
     state))
+
+
+(defparameter *hilbert* (make-instance 'l-system
+				       :axiom "a"
+				       :alphabet '(#\a #\b)
+				       :productions (list
+						     (make-instance 'production :predecessor #\a :successor "-bf+afa+fb-")
+						     (make-instance 'production :predecessor #\b :successor "+af-bfb-fa+"))))
+
+
+(defclass l-system-drawer ()
+  ((input :acccessor input :initarg :input)
+   (initial-direction :accessor initial-direction :initarg :initial-direction)
+   (origin :accessor :origin :initarg :origin)))
