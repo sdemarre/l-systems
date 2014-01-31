@@ -70,11 +70,9 @@
 (defun split-system ()
   (make-l-system "0" '(("0" "1[0]0")
 		       ("1" "11"))))
-
 (defun algae-system ()
   (make-l-system "a" '(("a" "ab")
 		       ("b" "a"))))
-
 (defun cantor-dust-system ()
   (make-l-system "a" '(("a" "aba")
 		       ("b" "bbb"))))
@@ -83,3 +81,11 @@
 (defun sierpinski-triangle-system ()
   (make-l-system "a" '(("a" "b-a-b")
 		       ("b" "a+b+a"))))
+(defun hilbert-system ()
+    (make-l-system "a" '(("a" "-bf+afa+fb-")
+			 ("b" "+af-bfb-fa+"))))
+
+(defclass l-system-drawer ()
+  ((input :accessor input :initarg :input)
+   (initial-direction :accessor initial-direction :initarg :initial-direction)
+   (origin :accessor :origin :initarg :origin)))
